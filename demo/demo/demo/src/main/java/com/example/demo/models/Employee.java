@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Employee {
     @Id
-    private int empId;
+    private int emp_id;
     private String name;
     private String role;
 }
