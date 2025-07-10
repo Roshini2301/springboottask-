@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -16,14 +17,18 @@ public class RegisterDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int empId;
-    @Column(name="emp_name")
-    private String empname;
+    @Column(nullable = false)
+    private String name;
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private String password;
-    private String gender;
-
-    @Column(name="date_of_birth")
-    private Date dateOfBirth;
-    private String role;
-
+    @Column(name = "user_name", nullable = false, unique = true)
+    private String userName;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",joinColumns =
+    @JoinColumn(name = "user_id", referencedColumnName = "empId"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "roleId")
+    )
+    private Set<Roles> roles;
 }
