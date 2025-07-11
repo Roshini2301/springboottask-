@@ -22,5 +22,6 @@ public class AuthController {
     public String Login(@RequestBody RegisterDetails login){
         return authService.authenticate(login);
     }
+    
 
 }
