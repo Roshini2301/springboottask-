@@ -1,12 +1,11 @@
 package com.example.demo.services;
 
 import com.example.demo.models.RegisterDetails;
-import com.example.demo.repository.RegisterDetailsRepository;
+import com.example.demo.models.UserDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -26,12 +25,26 @@ public class EmployeeService {
 //        return registerDetailsRepository.findByRole();
 //    }
 
-    public String addEmployee(RegisterDetails employee) {
-        registerDetailsRepository.save(employee);
-        return "Employee Added Successfully";
-    }
+//    public String addEmployee(UserDetailsDto employee) {
+//        registerDetailsRepository.save(employee);
+//        return "Employee Added Successfully";
+//    }
+public String addEmployee(UserDetailsDto employeeDto) {
+    RegisterDetails employee = new RegisterDetails();
 
-    public String updateEmployee(int empId) {
+    employee.setEmpId(employeeDto.getEmpId()); // Optional if empId is auto-generated
+    employee.setName(employeeDto.getName());
+    employee.setEmail(employeeDto.getEmail());
+    employee.setPassword(employeeDto.getPassword());
+    employee.setUserName(employeeDto.getUserName());
+    // You can handle roleNames if RegisterDetails has a Set<Role>
+
+    registerDetailsRepository.save(employee); // ✅ No error now
+    return "Employee Added Successfully";
+}
+
+
+    public String updateEmployee(int empId, UserDetailsDto employee) {
         RegisterDetails user = registerDetailsRepository.findById(empId)
                 .orElseThrow(()->new RuntimeException("No Such User Present"));
         registerDetailsRepository.save(user);

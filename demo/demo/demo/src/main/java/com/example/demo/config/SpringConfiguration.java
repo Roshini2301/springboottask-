@@ -1,9 +1,13 @@
 package com.example.demo.config;
 
+import com.example.demo.jwt.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,6 +22,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableMethodSecurity
 public class SpringConfiguration {
+
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -40,6 +47,13 @@ public class SpringConfiguration {
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration configuration)
+            throws Exception {
+        return configuration.getAuthenticationManager();
+
+    }
 
 //  @Bean
 //  UserDetailsService userDetailsService(){
@@ -50,9 +64,9 @@ public class SpringConfiguration {
 //            .build();
 //    UserDetails ksp = User.builder()
 //            .username("sandhya")
-//            .password(passwordEncoder().encode("sandhya"))
+//            .password(passwordEncoder().encode("roshini"))
 //            .roles("USER")
 //            .build();
-//    return new InMemoryUserDetailsManager(admin,ksp);
+//    return new InMemoryUserDetailsManager(admin,roshini);
 //  }
 }

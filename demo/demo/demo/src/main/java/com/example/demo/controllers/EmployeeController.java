@@ -49,16 +49,17 @@ public class EmployeeController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/employee")
-    public String postMethod(@RequestBody RegisterDetails employee){
+    public String postMethod(@RequestBody UserDetailsDto employee){
 //        Employee employee = new Employee(5,"Mani", "Business");
         return employeeService.addEmployee(employee);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/employee/{empId}")
-    public String putMethod(@PathVariable int empId){
-        return employeeService.updateEmployee(empId);
+    public String putMethod(@PathVariable int empId, @RequestBody UserDetailsDto employee) {
+        return employeeService.updateEmployee(empId, employee);
     }
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/employee/{empID}")
