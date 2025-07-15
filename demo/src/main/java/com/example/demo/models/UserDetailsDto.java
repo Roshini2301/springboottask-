@@ -14,5 +14,6 @@ public class UserDetailsDto {
     private String email;
     private String password;
     private String userName;
+    private String job;
     private Set<String> roleNames;
 }

@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.jwt.JwtTokenProvider;
+import com.example.demo.models.AuthResponse;
 import com.example.demo.models.RegisterDetails;
 import com.example.demo.models.Roles;
 import com.example.demo.models.UserDetailsDto;
@@ -18,6 +19,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -61,14 +63,20 @@ public class AuthService {
         return "Employee Added Successfully";
 
     }
-    public String authenticate(RegisterDetails login) {
+    public AuthResponse authenticate(RegisterDetails login) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        login.getUserName(),login.getPassword()));
-        return jwtTokenProvider.generateToken(authentication);
-    }
-    public Optional<RegisterDetails> getUserNyUserName(String username){
-        return registerRepository.findByUserName(username);
+                        login.getUserName(), login.getPassword()));
+
+        String token = jwtTokenProvider.generateToken(authentication);
+        RegisterDetails user = registerRepository.findByUserName(login.getUserName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Set<String> roleNames = user.getRoles()
+                .stream()
+                .map(role -> role.getRoleName())
+                .collect(Collectors.toSet());
+
+        return new AuthResponse(token, user.getUserName(), roleNames);
     }
 }
 
