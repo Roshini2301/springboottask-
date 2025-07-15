@@ -1,20 +1,11 @@
-import React from 'react';
-
+// src/pages/Home.jsx
 const Home = () => {
   return (
-    <div style={styles.container}>
-      <h1>Welcome to the Employee Management System</h1>
-      <p>Click on "Login" to access the dashboard.</p>
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>Welcome to Employee Management System</h1>
+      <p>You are logged in!</p>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    padding: '40px',
-    textAlign: 'center',
-    fontFamily: 'Arial, sans-serif'
-  }
 };
 
 export default Home;
