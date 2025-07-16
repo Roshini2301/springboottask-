@@ -1,4 +1,3 @@
-// src/pages/Login.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,36 +8,26 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user'));
 
-    if (storedUser?.email === email && storedUser?.password === password) {
+    if (user && user.email === email && user.password === password) {
       alert('Login successful');
-      navigate('/');
+      navigate('/employees');
     } else {
-      alert('Invalid credentials or user not registered');
+      alert('Invalid credentials');
     }
   };
 
   return (
-    <form onSubmit={handleLogin} style={styles.form}>
+    <form onSubmit={handleLogin}>
       <h2>Login</h2>
-      <input type="email" placeholder="Email" value={email}
-        onChange={(e) => setEmail(e.target.value)} required />
-      <input type="password" placeholder="Password" value={password}
-        onChange={(e) => setPassword(e.target.value)} required />
+      <label>Email</label>
+      <input type="email" required onChange={(e) => setEmail(e.target.value)} />
+      <label>Password</label>
+      <input type="password" required onChange={(e) => setPassword(e.target.value)} />
       <button type="submit">Login</button>
     </form>
   );
-};
-
-const styles = {
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    maxWidth: '300px',
-    margin: '50px auto',
-    gap: '15px'
-  }
 };
 
 export default Login;
